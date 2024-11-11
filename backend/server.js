@@ -82,8 +82,8 @@ app.use((err, req, res, next) => {
 
 // SSL Options
 const sslOptions = {
-  key: fs.readFileSync('keys/localhost+2-key.pem'), // Update path to match where you saved the key
-  cert: fs.readFileSync('keys/localhost+2.pem') // Update path to match where you saved the cert
+  key: fs.readFileSync('keys/localhost-key.pem'), // Update path to match where you saved the key
+  cert: fs.readFileSync('keys/localhost.pem') // Update path to match where you saved the cert
 };
 
 // Start HTTPS Server
