@@ -1,4 +1,5 @@
 // src/components/Home.js
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -10,7 +11,6 @@ const Home = () => {
         <div className="absolute top-10 left-10 w-80 h-80 bg-red-500 opacity-30 rounded-full filter blur-3xl animate-float"></div>
         <div className="absolute bottom-10 right-10 w-80 h-80 bg-white opacity-20 rounded-full filter blur-3xl animate-float-slow"></div>
         <div className="absolute bottom-40 left-40 w-60 h-60 bg-red-700 opacity-25 rounded-full filter blur-3xl animate-float-reverse"></div>
-        {/* Additional decorative elements */}
         <div className="absolute top-40 left-20 w-40 h-40 bg-red-600 opacity-40 rounded-full filter blur-2xl animate-pulse"></div>
         <div className="absolute bottom-20 right-40 w-60 h-60 bg-white opacity-30 rounded-full filter blur-2xl animate-spin-slow"></div>
       </div>
@@ -20,7 +20,7 @@ const Home = () => {
         <h1 className="text-5xl font-extrabold text-red-700 mb-6 tracking-tight leading-tight gradient-text">
           Secure Payments Portal
         </h1>
-        <p className="text-lg text-white mb-8 leading-relaxed">
+        <p className="text-lg text-gray-800 mb-8 leading-relaxed">
           Efficiently manage your transactions and financial insights.
         </p>
         <Link
@@ -29,7 +29,6 @@ const Home = () => {
         >
           Login to Your Account
         </Link>
-        {/* Additional call-to-action button */}
         <Link
           to="/register"
           className="inline-block bg-gray-800 text-white text-lg font-semibold py-3 px-8 rounded-full shadow-md transform transition-transform duration-300 hover:scale-110 hover:shadow-lg mt-4"

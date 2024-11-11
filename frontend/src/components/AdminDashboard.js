@@ -1,3 +1,5 @@
+// src/components/AdminDashboard.js
+
 import React, { useEffect, useState } from 'react';
 import { CheckCircle, XCircle, Loader } from 'lucide-react';
 import { getPendingPayments, approvePayment, rejectPayment } from '../api';
@@ -69,7 +71,7 @@ const AdminDashboard = ({ token }) => {
     setMessage(null);
 
     try {
-      const response = await api.post(
+      await api.post(
         '/api/admin/add-admin',
         adminForm,
         { headers: { Authorization: `Bearer ${token}` } }
@@ -85,80 +87,89 @@ const AdminDashboard = ({ token }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 p-8">
-      <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg">
-        <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 p-6 rounded-t-2xl">
-          <h2 className="text-3xl font-bold text-white text-center">Admin Dashboard</h2>
-          <p className="text-white text-center">Manage Pending Payments & Add Admins</p>
+    <div className="min-h-screen bg-black p-8">
+      <div className="max-w-5xl mx-auto bg-black rounded-2xl shadow-lg border border-gray-800">
+        {/* Header */}
+        <div className="p-6 rounded-t-2xl bg-gradient-to-r from-red-600 to-red-800">
+          <h2 className="text-4xl font-extrabold text-white text-center">Admin Dashboard</h2>
+          <p className="text-white text-center mt-2">Manage Pending Payments & Add Admins</p>
         </div>
 
+        {/* Notifications */}
         {message && (
-          <div className="bg-green-50 border-l-4 border-green-500 p-4 text-green-700 text-center">
+          <div className="bg-green-500 text-white p-4 text-center">
             {message}
           </div>
         )}
         {error && (
-          <div className="bg-red-50 border-l-4 border-red-500 p-4 text-red-700 text-center">
+          <div className="bg-red-500 text-white p-4 text-center">
             {error}
           </div>
         )}
 
-        {loading ? (
-          <div className="p-10 flex items-center justify-center">
-            <Loader className="animate-spin text-yellow-500 w-10 h-10" />
-          </div>
-        ) : (
-          <ul className="p-6 space-y-4">
-            {payments.length === 0 ? (
-              <p className="text-gray-500 text-center">No pending payments at the moment.</p>
-            ) : (
-              payments.map((payment) => (
-                <li key={payment._id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg shadow-md">
-                  <div>
-                    <p className="text-lg font-medium text-gray-700">
-                      <strong>From:</strong> {payment.sender?.name || 'Unknown'} ({payment.sender?.email || 'N/A'})
-                    </p>
-                    <p className="text-lg font-medium text-gray-700">
-                      <strong>To:</strong> {payment.recipient?.name || 'Unknown'} ({payment.recipient?.email || 'N/A'})
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      Amount: R{payment.amount} | SWIFT Code: {payment.swiftCode}
-                    </p>
-                  </div>
-                  <div className="flex space-x-2">
-                    <button
-                      onClick={() => handleApprove(payment._id)}
-                      className={`flex items-center bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-600 transition-all ${processing === payment._id ? 'opacity-50 cursor-not-allowed' : ''}`}
-                      disabled={processing === payment._id}
-                    >
-                      {processing === payment._id ? (
-                        <Loader size={18} className="animate-spin mr-1" />
-                      ) : (
-                        <CheckCircle size={18} className="mr-1" />
-                      )}
-                      Approve
-                    </button>
-                    <button
-                      onClick={() => handleReject(payment._id)}
-                      className={`flex items-center bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition-all ${processing === payment._id ? 'opacity-50 cursor-not-allowed' : ''}`}
-                      disabled={processing === payment._id}
-                    >
-                      {processing === payment._id ? (
-                        <Loader size={18} className="animate-spin mr-1" />
-                      ) : (
-                        <XCircle size={18} className="mr-1" />
-                      )}
-                      Reject
-                    </button>
-                  </div>
-                </li>
-              ))
-            )}
-          </ul>
-        )}
+        {/* Pending Payments */}
+        <div className="p-6">
+          {loading ? (
+            <div className="flex items-center justify-center py-10">
+              <Loader className="animate-spin text-red-500 w-12 h-12" />
+            </div>
+          ) : (
+            <div>
+              <h3 className="text-2xl font-semibold text-white mb-6">Pending Payments</h3>
+              {payments.length === 0 ? (
+                <p className="text-gray-400 text-center">No pending payments at the moment.</p>
+              ) : (
+                <ul className="space-y-4">
+                  {payments.map((payment) => (
+                    <li key={payment._id} className="flex items-center justify-between p-4 bg-gray-800 rounded-lg shadow-md">
+                      <div>
+                        <p className="text-lg font-medium text-white">
+                          <strong>From:</strong> {payment.sender?.name || 'Unknown'} ({payment.sender?.email || 'N/A'})
+                        </p>
+                        <p className="text-lg font-medium text-white">
+                          <strong>To:</strong> {payment.recipient?.name || 'Unknown'} ({payment.recipient?.email || 'N/A'})
+                        </p>
+                        <p className="text-sm text-gray-400 mt-2">
+                          Amount: R{payment.amount} | SWIFT Code: {payment.swiftCode}
+                        </p>
+                      </div>
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => handleApprove(payment._id)}
+                          className={`flex items-center bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-200 ${processing === payment._id ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          disabled={processing === payment._id}
+                        >
+                          {processing === payment._id ? (
+                            <Loader size={18} className="animate-spin mr-2" />
+                          ) : (
+                            <CheckCircle size={18} className="mr-2" />
+                          )}
+                          Approve
+                        </button>
+                        <button
+                          onClick={() => handleReject(payment._id)}
+                          className={`flex items-center bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-all duration-200 ${processing === payment._id ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          disabled={processing === payment._id}
+                        >
+                          {processing === payment._id ? (
+                            <Loader size={18} className="animate-spin mr-2" />
+                          ) : (
+                            <XCircle size={18} className="mr-2" />
+                          )}
+                          Reject
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+        </div>
 
-        <div className="p-6 bg-gray-100 rounded-b-2xl">
-          <h3 className="text-xl font-semibold mb-4">Add New Admin</h3>
+        {/* Add Admin Section */}
+        <div className="p-6 bg-gray-900 rounded-b-2xl">
+          <h3 className="text-2xl font-semibold text-white mb-6">Add New Admin</h3>
           <form onSubmit={handleAddAdmin} className="space-y-4">
             <input
               type="text"
@@ -166,7 +177,7 @@ const AdminDashboard = ({ token }) => {
               value={adminForm.name}
               onChange={(e) => setAdminForm({ ...adminForm, name: e.target.value })}
               required
-              className="w-full p-3 rounded-lg border border-gray-300"
+              className="w-full p-4 rounded-lg bg-gray-800 text-white placeholder-gray-500 focus:ring-2 focus:ring-red-600 focus:outline-none"
             />
             <input
               type="text"
@@ -174,7 +185,7 @@ const AdminDashboard = ({ token }) => {
               value={adminForm.surname}
               onChange={(e) => setAdminForm({ ...adminForm, surname: e.target.value })}
               required
-              className="w-full p-3 rounded-lg border border-gray-300"
+              className="w-full p-4 rounded-lg bg-gray-800 text-white placeholder-gray-500 focus:ring-2 focus:ring-red-600 focus:outline-none"
             />
             <input
               type="text"
@@ -182,7 +193,7 @@ const AdminDashboard = ({ token }) => {
               value={adminForm.idNumber}
               onChange={(e) => setAdminForm({ ...adminForm, idNumber: e.target.value })}
               required
-              className="w-full p-3 rounded-lg border border-gray-300"
+              className="w-full p-4 rounded-lg bg-gray-800 text-white placeholder-gray-500 focus:ring-2 focus:ring-red-600 focus:outline-none"
             />
             <input
               type="email"
@@ -190,7 +201,7 @@ const AdminDashboard = ({ token }) => {
               value={adminForm.email}
               onChange={(e) => setAdminForm({ ...adminForm, email: e.target.value })}
               required
-              className="w-full p-3 rounded-lg border border-gray-300"
+              className="w-full p-4 rounded-lg bg-gray-800 text-white placeholder-gray-500 focus:ring-2 focus:ring-red-600 focus:outline-none"
             />
             <input
               type="password"
@@ -198,12 +209,12 @@ const AdminDashboard = ({ token }) => {
               value={adminForm.password}
               onChange={(e) => setAdminForm({ ...adminForm, password: e.target.value })}
               required
-              className="w-full p-3 rounded-lg border border-gray-300"
+              className="w-full p-4 rounded-lg bg-gray-800 text-white placeholder-gray-500 focus:ring-2 focus:ring-red-600 focus:outline-none"
             />
             <button
               type="submit"
               disabled={addingAdmin}
-              className="w-full py-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-all"
+              className="w-full py-3 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition-all duration-200 focus:ring-2 focus:ring-red-600 focus:outline-none"
             >
               {addingAdmin ? <Loader className="animate-spin mx-auto" /> : 'Add Admin'}
             </button>

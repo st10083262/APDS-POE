@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
   },
   balance: {
     type: Number,
-    default: 10000, // Initialize balance to a default value for new users
+    default: 75000, // Initialize balance to a default value for new users
   },
   transactions: [
     {

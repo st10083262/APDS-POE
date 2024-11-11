@@ -1,6 +1,8 @@
+// src/components/Statements.js
+
 import React, { useEffect, useState } from 'react';
 import { getPaymentHistory } from '../api';
-import FinancialInsights from './FinancialInsights'; // Import the FinancialInsights component
+import VisualData from './VisualData'; // Correctly import the VisualData component
 
 const Statements = () => {
   const [transactions, setTransactions] = useState([]);
@@ -30,17 +32,19 @@ const Statements = () => {
         {transactions.length > 0 ? (
           transactions.map((transaction) => (
             <li key={transaction._id}>
-              {new Date(transaction.createdAt).toLocaleDateString()} - {transaction.transactionType === 'incoming' ? 'Money In' : 'Money Out'}: R{transaction.amount} - {transaction.status}
+              {new Date(transaction.createdAt).toLocaleDateString()} -{' '}
+              {transaction.transactionType === 'incoming' ? 'Money In' : 'Money Out'}: R
+              {transaction.amount} - {transaction.status}
             </li>
           ))
         ) : (
           <p>No transactions available.</p>
         )}
       </ul>
-      
-      {/* Display Financial Insights chart below Statements */}
+
+      {/* Display Visual Data chart below Statements */}
       <div className="mt-8">
-        <FinancialInsights transactions={transactions} />
+        <VisualData transactions={transactions} />
       </div>
     </div>
   );

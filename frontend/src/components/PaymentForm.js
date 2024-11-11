@@ -1,3 +1,5 @@
+// src/components/PaymentForm.js
+
 import React, { useState } from 'react';
 import api from '../api';
 
@@ -12,9 +14,9 @@ const PaymentForm = ({ token, onTransactionUpdate }) => {
   const [showFinalMessage, setShowFinalMessage] = useState(false);
 
   const exchangeRates = {
-    USD: 18.0,
-    EUR: 20.0,
-    GBP: 23.0,
+    USD: 19.12,
+    EUR: 21.22,
+    GBP: 23.11,
     ZAR: 1,
   };
 
@@ -54,7 +56,7 @@ const PaymentForm = ({ token, onTransactionUpdate }) => {
       setConvertedAmount(null);
       onTransactionUpdate();
 
-      // Hide the final message after 5 seconds (5000ms)
+      // Hide the final message after 10 seconds (10000ms)
       setTimeout(() => setShowFinalMessage(false), 10000);
     } catch (error) {
       setMessage('Failed to create payment');
@@ -63,34 +65,34 @@ const PaymentForm = ({ token, onTransactionUpdate }) => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-lg max-w-md mx-auto text-center">
-      <h2 className="text-2xl font-bold text-yellow-700 mb-6">Send Funds</h2>
+    <div className="bg-black p-6 rounded-xl shadow-lg max-w-md mx-auto text-center border border-gray-800">
+      <h2 className="text-3xl font-bold text-red-600 mb-6">Send Funds</h2>
 
       {message && (
-        <p className="mb-4 text-sm font-semibold text-green-600 bg-green-100 p-2 rounded-lg">
+        <p className="mb-4 text-sm font-semibold text-green-500 bg-green-100 p-2 rounded-lg">
           {message}
         </p>
       )}
 
       {showFinalMessage ? (
-        <p className="mb-4 text-sm font-semibold text-green-600 bg-green-100 p-2 rounded-lg">
+        <p className="mb-4 text-sm font-semibold text-green-500 bg-green-100 p-2 rounded-lg">
           Payment request has been sent to admin for approval.
         </p>
       ) : showConfirmation ? (
-        <div className="p-4 bg-gray-50 rounded-lg shadow-lg text-center">
-          <p className="text-gray-700 mb-4">
+        <div className="p-4 bg-gray-800 rounded-lg shadow-lg text-center">
+          <p className="text-gray-300 mb-4">
             You are trying to send <strong>R{convertedAmount}</strong> to <strong>{recipientEmail}</strong>.
           </p>
           <div className="flex justify-center space-x-4">
             <button
               onClick={handleConfirm}
-              className="bg-green-500 text-white py-2 px-4 rounded-lg shadow hover:bg-green-600 transition-all duration-200"
+              className="bg-green-600 text-white py-2 px-4 rounded-lg shadow hover:bg-green-700 transition-all duration-200"
             >
               Confirm
             </button>
             <button
               onClick={() => setShowConfirmation(false)}
-              className="bg-red-500 text-white py-2 px-4 rounded-lg shadow hover:bg-red-600 transition-all duration-200"
+              className="bg-red-600 text-white py-2 px-4 rounded-lg shadow hover:bg-red-700 transition-all duration-200"
             >
               Go Back
             </button>
@@ -99,7 +101,7 @@ const PaymentForm = ({ token, onTransactionUpdate }) => {
       ) : (
         <form onSubmit={handlePreview} className="space-y-4">
           <div className="space-y-2">
-            <label htmlFor="recipientEmail" className="block text-left font-semibold text-gray-700">
+            <label htmlFor="recipientEmail" className="block text-left font-semibold text-gray-300">
               Recipient Email
             </label>
             <input
@@ -109,12 +111,12 @@ const PaymentForm = ({ token, onTransactionUpdate }) => {
               value={recipientEmail}
               onChange={(e) => setRecipientEmail(e.target.value)}
               required
-              className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all"
+              className="w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-500 focus:ring-2 focus:ring-red-600 focus:outline-none"
             />
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="swiftCode" className="block text-left font-semibold text-gray-700">
+            <label htmlFor="swiftCode" className="block text-left font-semibold text-gray-300">
               SWIFT Code
             </label>
             <input
@@ -124,12 +126,12 @@ const PaymentForm = ({ token, onTransactionUpdate }) => {
               value={swiftCode}
               onChange={(e) => setSwiftCode(e.target.value)}
               required
-              className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all"
+              className="w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-500 focus:ring-2 focus:ring-red-600 focus:outline-none"
             />
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="amount" className="block text-left font-semibold text-gray-700">
+            <label htmlFor="amount" className="block text-left font-semibold text-gray-300">
               Amount
             </label>
             <input
@@ -139,19 +141,19 @@ const PaymentForm = ({ token, onTransactionUpdate }) => {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               required
-              className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all"
+              className="w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-500 focus:ring-2 focus:ring-red-600 focus:outline-none"
             />
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="currency" className="block text-left font-semibold text-gray-700">
+            <label htmlFor="currency" className="block text-left font-semibold text-gray-300">
               Currency
             </label>
             <select
               id="currency"
               value={currency}
               onChange={(e) => setCurrency(e.target.value)}
-              className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all"
+              className="w-full p-3 rounded-lg bg-gray-800 text-white focus:ring-2 focus:ring-red-600 focus:outline-none"
             >
               <option value="USD">USD - US Dollar</option>
               <option value="EUR">EUR - Euro</option>
@@ -162,7 +164,7 @@ const PaymentForm = ({ token, onTransactionUpdate }) => {
 
           <button
             type="submit"
-            className="w-full py-3 mt-4 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white font-bold rounded-lg shadow-lg hover:from-yellow-600 hover:to-yellow-700 transform transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
+            className="w-full py-3 mt-4 bg-red-600 text-white font-bold rounded-lg shadow-lg hover:bg-red-700 transform transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2"
           >
             Preview Payment
           </button>
