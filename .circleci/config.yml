@@ -1,5 +1,3 @@
-# .circleci/config.yml
-
 version: 2.1
 
 jobs:
@@ -24,19 +22,19 @@ jobs:
             cd frontend
             npm install
 
-      # Run Backend Tests with Coverage
+      # Run Backend Tests
       - run:
           name: Run Backend Tests
           command: |
             cd backend
-            npm run test:coverage
+            npm test
 
-      # Run Frontend Tests with Coverage
+      # Run Frontend Tests
       - run:
           name: Run Frontend Tests
           command: |
             cd frontend
-            npm run test:coverage
+            npm test
 
       # Build Backend (if applicable)
       # Uncomment if your backend needs to be built
@@ -64,8 +62,7 @@ jobs:
               -Dsonar.organization=$SONAR_ORGANIZATION \
               -Dsonar.sources=. \
               -Dsonar.host.url=https://sonarcloud.io \
-              -Dsonar.login=$SONAR_TOKEN \
-              -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+              -Dsonar.login=$SONAR_TOKEN
 
       # Run SonarCloud Analysis for Frontend
       - run:
@@ -77,8 +74,7 @@ jobs:
               -Dsonar.organization=$SONAR_ORGANIZATION \
               -Dsonar.sources=. \
               -Dsonar.host.url=https://sonarcloud.io \
-              -Dsonar.login=$SONAR_TOKEN \
-              -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+              -Dsonar.login=$SONAR_TOKEN
 
 workflows:
   build_and_test:
