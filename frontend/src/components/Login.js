@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import api from '../api';
+import { FaLock, FaEnvelope } from 'react-icons/fa';
 
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
@@ -36,26 +37,15 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-100 via-yellow-200 to-yellow-100 flex items-center justify-center p-4">
-      {/* Decorative Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-yellow-300 rounded-full opacity-20 blur-3xl"></div>
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-yellow-400 rounded-full opacity-20 blur-3xl"></div>
-      </div>
-
+    <div className="min-h-screen bg-gradient-to-br from-red-200 via-white to-red-100 flex items-center justify-center p-6 relative overflow-hidden">
       <div className="relative w-full max-w-md">
-        {/* Card */}
-        <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl p-8 md:p-10">
-          <div className="w-20 h-20 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full mx-auto mb-6 flex items-center justify-center shadow-lg">
-            <span className="text-3xl">🔒</span>
+        <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 md:p-10">
+          <div className="bg-gradient-to-br from-red-400 to-red-600 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center shadow-lg">
+            <FaLock className="text-white text-4xl" />
           </div>
 
-          <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-yellow-600 to-yellow-800 bg-clip-text text-transparent mb-2">
-            Welcome Back!
-          </h2>
-          <p className="text-center text-gray-600 mb-8">
-            Please login to access your account
-          </p>
+          <h2 className="text-3xl font-bold text-center text-red-700 mb-2">Welcome Back!</h2>
+          <p className="text-center text-gray-600 mb-8">Please login to access your account</p>
 
           {error && (
             <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-md">
@@ -65,35 +55,40 @@ const Login = ({ onLogin }) => {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700" aria-label="Email Address">
                 Email Address
               </label>
               <div className="relative">
+                <FaEnvelope className="absolute top-1/2 transform -translate-y-1/2 left-4 text-gray-400" />
                 <input
                   type="email"
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-200 bg-white/50 backdrop-blur-sm"
+                  className="w-full px-10 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-400 focus:border-transparent transition-all duration-200 bg-white/50 backdrop-blur-sm"
                   required
+                  autoFocus
+                  aria-describedby="email-helper"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700" aria-label="Password">
                 Password
               </label>
               <div className="relative">
+                <FaLock className="absolute top-1/2 transform -translate-y-1/2 left-4 text-gray-400" />
                 <input
                   type="password"
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all duration-200 bg-white/50 backdrop-blur-sm"
+                  className="w-full px-10 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-400 focus:border-transparent transition-all duration-200 bg-white/50 backdrop-blur-sm"
                   required
+                  aria-describedby="password-helper"
                 />
               </div>
             </div>
@@ -101,9 +96,9 @@ const Login = ({ onLogin }) => {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-lg shadow-lg
-                hover:from-yellow-600 hover:to-yellow-700 transform hover:-translate-y-0.5 transition-all duration-200
-                focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2
+              className={`w-full py-3 bg-gradient-to-r from-red-400 to-red-600 text-white rounded-lg shadow-lg
+                hover:from-red-500 hover:to-red-700 transform hover:-translate-y-0.5 transition-all duration-200
+                focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2
                 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               <span className="flex items-center justify-center">
@@ -125,15 +120,21 @@ const Login = ({ onLogin }) => {
           <div className="mt-8 text-center">
             <p className="text-gray-600">
               Don't have an account?{' '}
-              <a 
-                href="/register" 
-                className="text-yellow-600 font-medium hover:text-yellow-700 hover:underline transition-colors duration-200"
+              <a
+                href="/register"
+                className="text-red-600 font-medium hover:text-red-700 hover:underline transition-colors duration-200"
               >
                 Register Here
               </a>
             </p>
           </div>
         </div>
+      </div>
+
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-10 left-10 w-80 h-80 bg-red-300 opacity-30 rounded-full filter blur-3xl animate-float"></div>
+        <div className="absolute bottom-10 right-10 w-80 h-80 bg-white opacity-20 rounded-full filter blur-3xl animate-float-slow"></div>
+        <div className="absolute bottom-40 left-40 w-60 h-60 bg-red-500 opacity-25 rounded-full filter blur-3xl animate-float-reverse"></div>
       </div>
     </div>
   );
